@@ -1,5 +1,6 @@
 import csv
 import json
+
 from pathlib import Path
 
 
@@ -29,6 +30,9 @@ class Item:
     def __str__(self):
         return f"{self.__name}"
 
+    def __add__(self, other):
+        return self.quantity + other.quantity
+
     @property
     def names(self):
         return self.__name
@@ -57,10 +61,16 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, way_csv):
         cls.all = []
-        with open(way_csv, 'r') as csvfile:
+        with open(way_csv, 'r', encoding='windows-1251') as csvfile:
             reader1 = csv.reader(csvfile)
+
             for row in reader1:
                 cls.all.append(row)
+            cls.all.pop(0)
+
+            for i in cls.all:
+                obj = cls(i[0], float(i[1]), int(i[2]))
+                return obj
 
     @staticmethod
     def string_to_number(count):
