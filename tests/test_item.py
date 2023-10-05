@@ -1,4 +1,6 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+from pathlib import Path
+
 import pytest
 from src.item import Item
 from src.phone import Phone
@@ -23,11 +25,12 @@ def test_apply_discount(class_test):
 
 
 def test_instantiate_from_csv(class_test):
-    ...
+    assert len(class_test.all) == 1
 
 
 def test_string_to_number(class_test):
     assert class_test.string_to_number(10.0) <= 10
+    assert class_test.string_to_number('5.5') == 5
 
 
 def test_repr(class_test):
@@ -56,3 +59,6 @@ def test_phone(class_phone):
     assert class_phone.number_of_sim == 2
     with pytest.raises(ValueError):
         class_phone.number_of_sim = 0
+
+
+
