@@ -1,5 +1,6 @@
 import csv
 import json
+import math
 
 from pathlib import Path
 
@@ -19,29 +20,29 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.__name = name
+        self.name = name
         self.price = price
         self.quantity = quantity
         self.all.append([name, price, quantity])
 
     def __repr__(self):
-        return f"Item({self.__name}, {self.price}, {self.quantity})"
+        return f"Item({self.name}, {self.price}, {self.quantity})"
 
     def __str__(self):
-        return f"{self.__name}"
+        return f"{self.name}"
 
     def __add__(self, other):
         return self.quantity + other.quantity
 
     @property
     def names(self):
-        return self.__name
+        return self.name
 
     @names.setter
     def names(self, name: str):
         self.__name = name
-        if len(self.__name) > 10:
-            self.__name = self.__name[0:10]
+        if len(self.name) > 10:
+            self.name = self.name[0:10]
 
     def calculate_total_price(self) -> float:
         """
@@ -61,15 +62,28 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, way_csv):
         cls.all = []
+        instances = []
         with open(way_csv, 'r', encoding='utf8') as csvfile:
             reader1 = csv.reader(csvfile)
 
             for row in reader1:
-                cls.all.append(row)
-            cls.all.pop(0)
+                try:
+                    value1 = str(row[0])
+                    value2 = float(row[1])
+                    value3 = int(row[2])
 
-        return reader1
+                except (ValueError, IndexError):
+                    continue
+                instance = cls(value1, value2, value3)
+                instances.append(instance)
+
+            cls.all = instances
+            print(cls.all)
+
+            return cls.all
 
     @staticmethod
     def string_to_number(count):
-        return int(count)
+        count = float(count)
+        count = math.floor(count)
+        return count
