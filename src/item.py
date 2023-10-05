@@ -61,16 +61,14 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, way_csv):
         cls.all = []
-        with open(way_csv, 'r', encoding='windows-1251') as csvfile:
+        with open(way_csv, 'r', encoding='utf8') as csvfile:
             reader1 = csv.reader(csvfile)
 
             for row in reader1:
                 cls.all.append(row)
             cls.all.pop(0)
 
-            for i in cls.all:
-                obj = cls(i[0], float(i[1]), int(i[2]))
-                return obj
+        return reader1
 
     @staticmethod
     def string_to_number(count):

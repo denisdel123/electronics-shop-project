@@ -48,3 +48,11 @@ def test_add_phone(class_phone, class_test):
     assert class_phone + class_test == 25
     with pytest.raises(ValueError):
         class_phone + 111
+
+
+def test_phone(class_phone):
+    assert str(class_phone) == 'iPhone 14'
+    assert repr(class_phone) == "Phone('iPhone 14', 120000, 5, 2)"
+    assert class_phone.number_of_sim == 2
+    with pytest.raises(ValueError):
+        class_phone.number_of_sim = 0
