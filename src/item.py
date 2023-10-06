@@ -20,29 +20,29 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
         self.all.append([name, price, quantity])
 
     def __repr__(self):
-        return f"Item('{self.name}', {self.price}, {self.quantity})"
+        return f"Item('{self.__name}', {self.price}, {self.quantity})"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.__name}"
 
     def __add__(self, other):
         return self.quantity + other.quantity
 
     @property
-    def names(self):
-        return self.name
+    def name(self):
+        return self.__name
 
-    @names.setter
-    def names(self, name: str):
-        self.name = name
-        if len(self.name) > 10:
-            self.name = self.name[0:10]
+    @name.setter
+    def name(self, name: str):
+        self.__name = name
+        if len(self.__name) > 10:
+            self.__name = self.__name[0:10]
 
     def calculate_total_price(self) -> float:
         """
@@ -78,7 +78,6 @@ class Item:
                 instances.append(instance)
 
             cls.all = instances
-            print(cls.all)
 
             return cls.all
 
