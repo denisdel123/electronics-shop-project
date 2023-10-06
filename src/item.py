@@ -25,18 +25,28 @@ class Item:
         self.quantity = quantity
         self.all.append([name, price, quantity])
 
+        """Возвращаем разработчику информацию"""
+
     def __repr__(self):
         return f"Item('{self.__name}', {self.price}, {self.quantity})"
+
+    """Возвращаем пользователю информацию"""
 
     def __str__(self):
         return f"{self.__name}"
 
+    """возвращаем сумму сложения классов"""
+
     def __add__(self, other):
         return self.quantity + other.quantity
+
+    """Считываем имя"""
 
     @property
     def name(self):
         return self.__name
+
+    """задаем ограничение длины название товара"""
 
     @name.setter
     def name(self, name: str):
@@ -58,6 +68,8 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price = self.price * self.pay_rate
+
+        """Возвращаем объекты класса"""
 
     @classmethod
     def instantiate_from_csv(cls, way_csv):
