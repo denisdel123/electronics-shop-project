@@ -40,7 +40,7 @@ class MixinLog:
 class Keyboard(Item, MixinLog):
     def __init__(self, name: str, price: float, quantity: int):
         super().__init__(name, price, quantity)
-        self._language = "EN"
+        MixinLog.__init__(self)
 
         """отправляем информацию пользователю"""
 
