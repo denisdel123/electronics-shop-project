@@ -4,6 +4,14 @@ import math
 
 from pathlib import Path
 
+key_csv = Path(__file__).parent.parent.joinpath("src").joinpath("items.csv")
+
+
+class InstantiateCSVError(Exception):
+    def __init__(self, message="Файл item.csv поврежден"):
+        self.message = message
+        super().__init__(self.message)
+
 
 class Item:
     """
@@ -72,26 +80,37 @@ class Item:
         """Возвращаем объекты класса"""
 
     @classmethod
-    def instantiate_from_csv(cls, way_csv):
+    def instantiate_from_csv(cls, way_csv=key_csv):
         cls.all = []
         instances = []
-        with open(way_csv, 'r', encoding='utf8') as csvfile:
-            reader1 = csv.reader(csvfile)
 
-            for row in reader1:
-                try:
-                    value1 = str(row[0])
-                    value2 = float(row[1])
-                    value3 = int(row[2])
+        try:
+            with open(way_csv, 'r', encoding='utf8') as csvfile:
+                reader1 = csv.reader(csvfile)
 
-                except (ValueError, IndexError):
-                    continue
-                instance = cls(value1, value2, value3)
-                instances.append(instance)
+                header = next(reader1)
 
-            cls.all = instances
+                if header != ['name', 'price', 'quantity']:
+                    raise InstantiateCSVError("_Файл item.csv поврежден_")
 
-            return cls.all
+                for row in reader1:
+                    try:
+                        value1 = str(row[0])
+                        value2 = float(row[1])
+                        value3 = int(row[2])
+
+                    except (ValueError, IndexError):
+                        continue
+
+                    instance = cls(value1, value2, value3)
+                    instances.append(instance)
+
+        except FileNotFoundError:
+            raise FileNotFoundError("_Отсутствует файл item.csv_")
+
+        cls.all = instances
+
+        return cls.all
 
     @staticmethod
     def string_to_number(count):

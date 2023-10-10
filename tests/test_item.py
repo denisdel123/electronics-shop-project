@@ -2,7 +2,7 @@
 from pathlib import Path
 
 import pytest
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 from src.keyboard import Keyboard
 
@@ -82,3 +82,13 @@ def test_keyboard_change_lang(class_keyboard):
     assert class_keyboard.language == 'RU'
     with pytest.raises(AttributeError):
         class_keyboard.language = "KZ"
+
+
+def test_instantiate_from_csv_error():
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv()
+
+
+def test_instantiate_from_csv_not():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv()
